@@ -5,6 +5,7 @@
  */
 package etu1851.framework.servlet;
 
+import etu1851.framework.Mapping;
 import etu1851.framework.Utilitaire;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +24,7 @@ import java.util.logging.Logger;
  */
 @WebServlet(name = "FrontServlet", urlPatterns = {"/*"})
 public class FrontServlet extends HttpServlet {
+    HashMap<String, Mapping> mappingUrls;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,7 +46,7 @@ public class FrontServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
 //            out.println("<h1>Servlet FrontServlet at " + request.getContextPath() + "</h1>");
-//            out.println("<h1>url " + Utilitaire.infoUrl(request.getRequestURL().toString(), "http://localhost:8081/Framework/")+ "</h1>");
+//            out.println("<h1>url " + Utilitaire.infoUrl(request.getRequestURL().toString(), "http://localhost:8080/Framework/")+ "</h1>");
             out.println("<h1>url " + Utilitaire.infoUrl2(request.getPathInfo())+ "</h1>");
             out.println("</body>");
             out.println("</html>");
