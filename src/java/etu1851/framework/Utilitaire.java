@@ -36,6 +36,6 @@ public class Utilitaire {
     
     public static void main(String[] args) throws Exception
     {
-        System.out.println(infoUrl("http://localhost:8081/Framework/aliment/assiete?deguster", "http://localhost:8081/Framework/"));
+        System.out.println(infoUrl("http://localhost:8080/Framework/pizza/porno?cullote", "http://localhost:8080/Framework/"));
     }
 }
