@@ -5,8 +5,10 @@
  */
 package etu1851.framework.servlet;
 
+import etu1851.framework.ClassIdentifier;
 import etu1851.framework.Mapping;
 import etu1851.framework.Utilitaire;
+import static etu1851.framework.Utilitaire.getClasses2;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +17,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +29,7 @@ import java.util.logging.Logger;
 @WebServlet(name = "FrontServlet", urlPatterns = {"/*"})
 public class FrontServlet extends HttpServlet {
     HashMap<String, Mapping> mappingUrls;
+    String packageName;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,9 +52,19 @@ public class FrontServlet extends HttpServlet {
             out.println("<body>");
 //            out.println("<h1>Servlet FrontServlet at " + request.getContextPath() + "</h1>");
 //            out.println("<h1>url " + Utilitaire.infoUrl(request.getRequestURL().toString(), "http://localhost:8080/Framework/")+ "</h1>");
-            out.println("<h1>url " + Utilitaire.infoUrl2(request.getPathInfo())+ "</h1>");
+//            out.println("<p>url: " + Utilitaire.infoUrl2(request.getPathInfo())+ "</p>");
+//            out.println("<p>class Name: " +Utilitaire.findMethodsAnnotatedWith(lc, Utilitaire.infoUrl2(request.getPathInfo()))[0] + "</p>");
+//            out.println("<p>foncttion Name: " +Utilitaire.findMethodsAnnotatedWith(lc, Utilitaire.infoUrl2(request.getPathInfo()))[1] + "</p>");
             out.println("</body>");
             out.println("</html>");
+                     
+            for (Map.Entry<String, Mapping> entry : mappingUrls.entrySet()) {
+                String key = entry.getKey();
+                Mapping value = entry.getValue();
+                out.println("annotation = " + key);
+                out.println("class Name = " + value.getClassName());
+                out.println("foncttion Name = " + value.getMethod());
+            }
         }
     }
 
@@ -99,5 +114,17 @@ public class FrontServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    public void init() throws ServletException 
+    {
+        packageName = this.getInitParameter("packageName"); 
+        try {
+            mappingUrls=Utilitaire.getAnnotatedMethods(packageName, ClassIdentifier.class);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FrontServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FrontServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
